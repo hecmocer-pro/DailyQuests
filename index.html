@@ -10,10 +10,6 @@
 </head>
 <body>
 
-
-<!-- TODO - subir -->
-<!-- TODO - fix mtga arena 21:30 -->
-
   <div class="container">
     <div id="hsw" class="game-container">
       <div class="game-name">Hearthstone Weekly</div>
@@ -170,186 +166,81 @@
     }
   </style>
 
-  <script>
-    const _MS_PER_HOUR = 1000 * 60 * 60;
-    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    const _MS_PER_WEEK = 1000 * 60 * 60 * 24 * 7;
+  <script type="module">
 
-    const now = new Date()
+    import fn from './auxFn.js'
 
-    function dateDiffInHours(a, b) {
-      // Discard the time and time-zone information.
-      const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate(), a.getHours(), a.getMinutes());
-      const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate(), b.getHours(), b.getMinutes());
-
-      return (utc2 - utc1) / _MS_PER_HOUR;
-    }
-
-    function dateDiffInDays(a, b) {
-      // Discard the time and time-zone information.
-      const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-      const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-      return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-    }
-
-    function dateDiffInWeeks(a, b) {
-      // Discard the time and time-zone information.
-      const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-      const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-      return Math.floor((utc2 - utc1) / _MS_PER_WEEK);
-    }
-
-    const getDailyQuest = (id) => {
-      let value = Number(localStorage.getItem(id))
-
-      // https://stackoverflow.com/a/3224854/15328250
-      // const now = new Date()
-      const lastSavedDate = new Date(localStorage.getItem(`${id}-date`))
-
-      const daysBetween = dateDiffInDays(lastSavedDate, now)
-      value += daysBetween
-      value = Math.min(value, 3)
-
-      consolidateValue(id, value)
-      return value
-    }
-
-    const getMTGAQuest = (id) => {
-      let value = Number(localStorage.getItem(id))
-
-      // https://stackoverflow.com/a/3224854/15328250
-      // const now = new Date()
-      const resetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), '11', '00')
-      const lastSavedDate = new Date(localStorage.getItem(`${id}-date`))
-
-      const hoursBetween = dateDiffInHours(lastSavedDate, resetTime)
-      value += Math.floor(Math.abs(hoursBetween / 24));
-
-      if (dateDiffInHours(resetTime, now) > 0) {
-        value += 1
-      }
-
-      value = Math.min(value, 3)
-
-      consolidateValue(id, value)
-      return value
-    }
-
-    const getWeeklyQuest = (id) => {
-      let value = Number(localStorage.getItem(id))
-
-      // https://stackoverflow.com/a/3224854/15328250
-      // const now = new Date()
-      let lastSavedDate = new Date(localStorage.getItem(`${id}-date`))
-      lastSavedDate.setDate(lastSavedDate.getDate() - 1); // para que las semanas empiecen en lunes y no en domingo
-
-      const weeksBetween = dateDiffInWeeks(lastSavedDate, now)
-
-      if (weeksBetween > 0) {
-        value = 3
-      }
-
-      consolidateValue(id, value)
-      return value
-    }
-
-    const consolidateValue = (id, value)  => {
-      setItemInLocalStorage(id, value)
-      setItemInHtml(id, value)
-    }
-
-    const setItemInLocalStorage = (id, value) => {
-      localStorage.setItem(id, value);
-      localStorage.setItem(`${id}-date`, new Date().toString());
-    }
-    const setItemInHtml = (id, value) => {
-      document.querySelector(`#${id} .insertionPoint`).innerHTML = value
-      if (value === 0) {
-        document.querySelector(`#${id}`).classList.add('zero-quests')
-      } else {
-        document.querySelector(`#${id}`).classList.remove('zero-quests')
-      }
-
-      if (value === 3) {
-        document.querySelector(`#${id}`).classList.add('all-quests')
-      } else {
-        document.querySelector(`#${id}`).classList.remove('all-quests')
-      }
-    }
-
-    let hsd = getDailyQuest("hsd")
-    let mtga = getMTGAQuest("mtga")
-    let lor = getDailyQuest("lor")
-    let hsw = getWeeklyQuest("hsw")
+    let hsd = fn.getDailyQuest("hsd")
+    let mtga = fn.getMTGAQuest("mtga")
+    let lor = fn.getDailyQuest("lor")
+    let hsw = fn.getWeeklyQuest("hsw")
 
     document.querySelector('#hsd .addBtn').addEventListener('click', () => {
       hsd += 1
       hsd = Math.min(hsd, 3)
       hsd = Math.max(hsd, 0)
-      consolidateValue('hsd', hsd)
+      fn.consolidateValue('hsd', hsd)
     })
     document.querySelector('#hsd .removeBtn').addEventListener('click', () => {
       hsd -= 1
       hsd = Math.min(hsd, 3)
       hsd = Math.max(hsd, 0)
-      consolidateValue('hsd', hsd)
+      fn.consolidateValue('hsd', hsd)
     })
 
     document.querySelector('#hsw .addBtn').addEventListener('click', () => {
       hsw += 1
       hsw = Math.min(hsw, 3)
       hsw = Math.max(hsw, 0)
-      consolidateValue('hsw', hsw)
+      fn.consolidateValue('hsw', hsw)
     })
     document.querySelector('#hsw .removeBtn').addEventListener('click', () => {
       hsw -= 1
       hsw = Math.min(hsw, 3)
       hsw = Math.max(hsw, 0)
-      consolidateValue('hsw', hsw)
+      fn.consolidateValue('hsw', hsw)
     })
 
     document.querySelector('#mtga .addBtn').addEventListener('click', () => {
       mtga += 1
       mtga = Math.min(mtga, 3)
       mtga = Math.max(mtga, 0)
-      consolidateValue('mtga', mtga)
+      fn.consolidateValue('mtga', mtga)
     })
     document.querySelector('#mtga .removeBtn').addEventListener('click', () => {
       mtga -= 1
       mtga = Math.min(mtga, 3)
       mtga = Math.max(mtga, 0)
-      consolidateValue('mtga', mtga)
+      fn.consolidateValue('mtga', mtga)
     })
 
     document.querySelector('#lor .addBtn').addEventListener('click', () => {
       lor += 1
       lor = Math.min(lor, 3)
       lor = Math.max(lor, 0)
-      consolidateValue('lor', lor)
+      fn.consolidateValue('lor', lor)
     })
     document.querySelector('#lor .removeBtn').addEventListener('click', () => {
       lor -= 1
       lor = Math.min(lor, 3)
       lor = Math.max(lor, 0)
-      consolidateValue('lor', lor)
+      fn.consolidateValue('lor', lor)
     })
 
     document.querySelector('#resetLocalStorage').addEventListener('click', () => {
       const confirmation = confirm("Are you sure you want to reset your quests?");
       if (confirmation == true) {
         hsd = 0
-        consolidateValue('hsd', hsd)
+        fn.consolidateValue('hsd', hsd)
 
         hsw = 0
-        consolidateValue('hsw', hsw)
+        fn.consolidateValue('hsw', hsw)
 
         mtga = 0
-        consolidateValue('mtga', mtga)
+        fn.consolidateValue('mtga', mtga)
 
         lor = 0
-        consolidateValue('lor', lor)
+        fn.consolidateValue('lor', lor)
       }
     })
 
@@ -357,16 +248,16 @@
       const confirmation = confirm("Are you sure you want to increase all your quests to the maximum?");
       if (confirmation == true) {
         hsd = 3
-        consolidateValue('hsd', hsd)
+        fn.consolidateValue('hsd', hsd)
 
         hsw = 3
-        consolidateValue('hsw', hsw)
+        fn.consolidateValue('hsw', hsw)
 
         mtga = 3
-        consolidateValue('mtga', mtga)
+        fn.consolidateValue('mtga', mtga)
 
         lor = 3
-        consolidateValue('lor', lor)
+        fn.consolidateValue('lor', lor)
       }
     })
 
