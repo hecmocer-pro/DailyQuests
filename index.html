@@ -20,7 +20,8 @@
         <button class="removeBtn btn">-1</button>
         <button class="addBtn btn">+1</button>
       </div>
-      <!-- <button>i</button> -->
+      <div>3 new quests per week</div>
+      <div><a href="https://www.reddit.com/r/hearthstone/comments/jt1idy/weekly_quests_1_new_one_a_week_or_all_reset/">at monday 00h</a></div>
     </div>
     <div id="hsd" class="game-container">
       <div class="game-name">Hearthstone Daily</div>
@@ -31,7 +32,8 @@
         <button class="removeBtn btn">-1</button>
         <button class="addBtn btn">+1</button>
       </div>
-      <!-- <button>i</button> -->
+      <div>1 new quest daily</div>
+      <div><a href="https://www.reddit.com/r/hearthstone/comments/5j9ejz/q_dailies_reset_timer_for_all_servers/">at 00h</a></div>
     </div>
     <div id="lor" class="game-container">
       <div class="game-name">Legends of Runeterra</div>
@@ -42,7 +44,8 @@
         <button class="removeBtn btn">-1</button>
         <button class="addBtn btn">+1</button>
       </div>
-      <!-- <button>i</button> -->
+      <div>1 new quest daily</div>
+      <div><a href="https://www.reddit.com/r/LegendsOfRuneterra/comments/et2ean/daily_quests_reset_times/">at 03am</a></div>
     </div>
     <div id="mtga" class="game-container">
       <div class="game-name">MTG Arena</div>
@@ -53,7 +56,8 @@
         <button class="removeBtn btn">-1</button>
         <button class="addBtn btn">+1</button>
       </div>
-      <!-- <button>i</button> -->
+      <div>1 new quest daily</div>
+      <div><a href="https://draftsim.com/mtg-arena-win-resets-and-xp/#:~:text=Daily%20quests%20are%20reset%20at,)%20when%20they're%20completed.">at 9am UTC</a></div>
     </div>
   </div>
   <div>
@@ -180,12 +184,14 @@
       hsd = Math.min(hsd, 3)
       hsd = Math.max(hsd, 0)
       fn.consolidateValue('hsd', hsd)
+      fn.subtractOneToHistoryRecord('hsd')
     })
     document.querySelector('#hsd .removeBtn').addEventListener('click', () => {
       hsd -= 1
       hsd = Math.min(hsd, 3)
       hsd = Math.max(hsd, 0)
       fn.consolidateValue('hsd', hsd)
+      fn.sumOneToHistoryRecord('hsd')
     })
 
     document.querySelector('#hsw .addBtn').addEventListener('click', () => {
@@ -193,12 +199,14 @@
       hsw = Math.min(hsw, 3)
       hsw = Math.max(hsw, 0)
       fn.consolidateValue('hsw', hsw)
+      fn.subtractOneToHistoryRecord('hsw')
     })
     document.querySelector('#hsw .removeBtn').addEventListener('click', () => {
       hsw -= 1
       hsw = Math.min(hsw, 3)
       hsw = Math.max(hsw, 0)
       fn.consolidateValue('hsw', hsw)
+      fn.sumOneToHistoryRecord('hsw')
     })
 
     document.querySelector('#mtga .addBtn').addEventListener('click', () => {
@@ -206,12 +214,14 @@
       mtga = Math.min(mtga, 3)
       mtga = Math.max(mtga, 0)
       fn.consolidateValue('mtga', mtga)
+      fn.subtractOneToHistoryRecord('mtga')
     })
     document.querySelector('#mtga .removeBtn').addEventListener('click', () => {
       mtga -= 1
       mtga = Math.min(mtga, 3)
       mtga = Math.max(mtga, 0)
       fn.consolidateValue('mtga', mtga)
+      fn.sumOneToHistoryRecord('mtga')
     })
 
     document.querySelector('#lor .addBtn').addEventListener('click', () => {
@@ -219,16 +229,18 @@
       lor = Math.min(lor, 3)
       lor = Math.max(lor, 0)
       fn.consolidateValue('lor', lor)
+      fn.subtractOneToHistoryRecord('lor')
     })
     document.querySelector('#lor .removeBtn').addEventListener('click', () => {
       lor -= 1
       lor = Math.min(lor, 3)
       lor = Math.max(lor, 0)
       fn.consolidateValue('lor', lor)
+      fn.sumOneToHistoryRecord('lor')
     })
 
     document.querySelector('#resetLocalStorage').addEventListener('click', () => {
-      const confirmation = confirm("Are you sure you want to reset your quests?");
+      const confirmation = confirm("Are you sure you want to reset your quests?\r\nThis will delete today's history");
       if (confirmation == true) {
         hsd = 0
         fn.consolidateValue('hsd', hsd)
@@ -241,11 +253,13 @@
 
         lor = 0
         fn.consolidateValue('lor', lor)
+
+        fn.cleanTodaysHistoryRecord()
       }
     })
 
     document.querySelector('#maxLocalStorage').addEventListener('click', () => {
-      const confirmation = confirm("Are you sure you want to increase all your quests to the maximum?");
+      const confirmation = confirm("Are you sure you want to increase all your quests to the maximum?\r\nThis will delete today's history");
       if (confirmation == true) {
         hsd = 3
         fn.consolidateValue('hsd', hsd)
@@ -258,6 +272,8 @@
 
         lor = 3
         fn.consolidateValue('lor', lor)
+
+        fn.cleanTodaysHistoryRecord()
       }
     })
 
