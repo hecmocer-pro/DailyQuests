@@ -144,7 +144,7 @@ export default {
         const hoursBetweenResetAndNow = dateDiffInHours(resetTime, now)
         value += Math.floor(Math.abs(hoursBetweenResetAndLastSavedDate / 24));
 
-        if (-11 < hoursBetweenResetAndLastSavedDate && hoursBetweenResetAndLastSavedDate < 0 && 0 < hoursBetweenResetAndNow) {
+        if (hoursBetweenResetAndLastSavedDate < 0 && 0 < hoursBetweenResetAndNow) {
           value += 1
         }
 
