@@ -108,9 +108,14 @@
       </div>
     </div>
     <div>
-      <button id="resetLocalStorage" class="footerBtn">Reset</button>
-      <button id="maxLocalStorage" class="footerBtn">Max</button>
+      <button id="resetLocalStorage" class="footerBtn btn-danger">Reset</button>
+      <button id="maxLocalStorage" class="footerBtn btn-danger">Max</button>
+      <button id="plots" class="footerBtn historyBtn">History</button>
     </div>
+  </div>
+
+  <div id="plotsContainer" class="plotsContainer" hidden>
+    <canvas id="historyChart" width="400" height="150"></canvas>
   </div>
 
   <style>
@@ -195,6 +200,11 @@
     }
 
     .footerBtn:hover {
+      box-shadow: 1px 1px black;
+      cursor: pointer;
+    }
+
+    .btn-danger:hover {
       color: red;
       border-color: red;
       cursor: pointer;
@@ -241,6 +251,25 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
+    }
+
+    .plotsContainer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: rgba(255,255,255,1);
+      height: calc(100% - 64px);
+      width: calc(100% - 64px);
+      margin: 32px;
+      border: solid 1px black;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .plotsContainer[hidden] {
+      display: none;
     }
 
 
@@ -334,8 +363,14 @@
         border: solid 2px black
       }
 
+      .historyBtn {
+        display: none;
+      }
+
     }
   </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script type="module">
 
@@ -444,7 +479,55 @@
       }
     })
 
+    document.querySelector('#plots').addEventListener('click', () => {
+      document.querySelector('#plotsContainer').removeAttribute('hidden')
+    })
+
+    document.querySelector('#plotsContainer').addEventListener('click', () => {
+      document.querySelector('#plotsContainer').setAttribute('hidden', true)
+    })
+
   </script>
+
+  <script>
+    const historyRecord = JSON.parse(localStorage.getItem('DQ_historyRecord')) || [];
+    console.log(historyRecord)
+    const labels = [];
+    const data = [];
+
+    historyRecord.forEach((item) => {
+      labels.push(item.date)
+      const hsdQuests = item.hsd || 0
+      const hswQuests = item.hsw || 0
+      const lorQuests = item.lor || 0
+      const mtgaQuests = item.mtga || 0
+      data.push(hsdQuests + hswQuests + lorQuests + mtgaQuests)
+    })
+
+    const chartData = {
+      labels: labels,
+      datasets: [{
+        label: 'Completed quests per day',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data,
+      }]
+    };
+
+    const config = {
+      type: 'line',
+      data: chartData,
+      options: {}
+    };
+
+    console.log(config)
+
+    const historyChart = new Chart(
+      document.getElementById('historyChart'),
+      config
+    );
+  </script>
+
 
 </body>
 </html>
