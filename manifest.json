@@ -18,22 +18,7 @@
     "display": "minimal-ui",
     "scope": "/DailyQuests",
     "theme_color": "#EEEEEE",
-    "shortcuts": [
-      {
-        "name": "How's weather today?",
-        "short_name": "Today",
-        "description": "View weather information for today",
-        "url": "/today?source=pwa",
-        "icons": [{ "src": "lorLogo_192.png", "sizes": "192x192" }]
-      },
-      {
-        "name": "How's weather tomorrow?",
-        "short_name": "Tomorrow",
-        "description": "View weather information for tomorrow",
-        "url": "/tomorrow?source=pwa",
-        "icons": [{ "src": "mtgaLogo_192.png", "sizes": "192x192" }]
-      }
-    ],
+    "shortcuts": [],
     "description": "Keep track of your favourite game's daily quests",
     "screenshots": []
   }
