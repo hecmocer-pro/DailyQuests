@@ -3,12 +3,12 @@
     "name": "Daily quest tracker",
     "icons": [
       {
-        "src": "hsLogo_192.png",
+        "src": "hLogo_192.png",
         "type": "image/png",
         "sizes": "192x192"
       },
       {
-        "src": "hsLogo_512.png",
+        "src": "hLogo_512.png",
         "type": "image/png",
         "sizes": "512x512"
       }
