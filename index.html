@@ -17,7 +17,7 @@
   <link rel="manifest" href="/manifest.json">
 </head>
 
-<body>
+<body style="visibility: hidden;" onload="js_Load()">
 
   <!-- fonts -->
   <style>
@@ -85,7 +85,6 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
   </style>
-
 
   <div class="container">
     <div id="hsw" class="game-container">
@@ -204,7 +203,7 @@
   <style>
     body {
       background: linear-gradient(to right, hsl(192deg 30% 75%), hsl(192deg 30% 90%));
-      margin: 64px 0;
+      margin: 0;
       display: flex;
       background-color: #eee;
 
@@ -218,7 +217,7 @@
       column-gap: 120px;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       padding: 0 60px;
-      margin: 64px 0;
+      margin: 128px 0;
     }
 
     .game-container {
@@ -364,7 +363,7 @@
       body {
         background: linear-gradient(to right, hsl(192deg 82% 87%), hsl(192deg 60% 90%));
         margin: 0;
-      }
+      } style="visibility: hidden;" onload="js_Load()"
 
       .container {
         column-gap: 0;
@@ -658,6 +657,10 @@
 
   <!-- main.js -->
   <script>
+
+    window.js_Load = function() {
+      document.body.style.visibility='visible';
+    }
 
     let hsd = window.auxFn.getDailyQuest("hsd")
     let mtga = window.auxFn.getMTGAQuest("mtga")
