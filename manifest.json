@@ -13,10 +13,10 @@
         "sizes": "512x512"
       }
     ],
-    "start_url": "/",
+    "start_url": "/DailyQuests",
     "background_color": "#FFFFFF",
     "display": "minimal-ui",
-    "scope": "/",
+    "scope": "/DailyQuests",
     "theme_color": "#EEEEEE",
     "shortcuts": [
       {
