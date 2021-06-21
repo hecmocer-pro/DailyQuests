@@ -16,7 +16,7 @@
     "start_url": "/DailyQuests",
     "background_color": "#FFFFFF",
     "display": "minimal-ui",
-    "scope": "/DailyQuests",
+    "scope": "/",
     "theme_color": "#EEEEEE",
     "shortcuts": [],
     "description": "Keep track of your favourite game's daily quests",
